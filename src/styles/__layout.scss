@@ -7,6 +7,11 @@ main {
   padding: 20px;
 }
 
+.filter {
+  display: flex;
+  justify-content: center;
+}
+
 @media (min-width: 600px) {
   .container {
     display: grid;

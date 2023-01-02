@@ -7,8 +7,7 @@ const Pagination = ({
   activePage,
   handlePagination,
 }) => {
-  const [currentPage, setCurrentPage] = useState(activePage || 1);
-  console.log(currentPage * perPage,'currentPage * perPage');
+  const [currentPage, setCurrentPage] = useState(parseInt(activePage) || 1);
   return (
     <div className="pagination">
       <button

@@ -1,6 +1,6 @@
 import "./style.scss";
 
-function CharacterCard({ id, image, name, species, status, onClick }) {
+function CharacterDetails({ id, image, name, species, status, onClick }) {
   return (
     <article className="card" onClick={() => onClick(id)}>
       <aside className="card__aside">
@@ -18,4 +18,4 @@ function CharacterCard({ id, image, name, species, status, onClick }) {
   );
 }
 
-export default CharacterCard;
+export default CharacterDetails;

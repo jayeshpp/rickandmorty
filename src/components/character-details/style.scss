@@ -1,0 +1,47 @@
+.card {
+  margin: 18px;
+  background-color: #3c3e44;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px,
+    rgb(0 0 0 / 6%) 0px 2px 4px -1px;
+
+  &__figure {
+    height: 300px;
+    width: 100%;
+    margin: 0px;
+  }
+
+  &__image {
+    object-position: center center;
+    object-fit: cover;
+    width: 100%;
+    height: 300px;
+  }
+  &__body {
+    color: white;
+    padding: 22px;
+  }
+  &__title {
+    padding-bottom: 8px;
+  }
+}
+
+@media (min-width: 600px) {
+  .card {
+    max-width: 500px;
+    height: 200px;
+    display: grid;
+    grid-template-columns: .8fr 1fr;
+    &__aside {
+    }
+    &__figure {
+      height: 100%;
+    }
+    &__image {
+      height: 100%;
+    }
+    &__body {
+    }
+  }
+}

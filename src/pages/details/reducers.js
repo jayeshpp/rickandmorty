@@ -2,21 +2,16 @@ import { createReducer } from "../../store/createReducer";
 import { ACTION_TYPES } from "./actionTypes";
 
 const initialState = {
-  characters: [],
-  info: {},
+  data: {},
   loading: true,
   error: false,
-  message: '',
-  filters: {
-    page: 0
-  }
+  message: ''
 };
 
-const setCharacters = (state, { data, info }) => {
+const setCharacter = (state, { data }) => {
   return {
     ...state,
-    characters: data,
-    info: info
+    data: data,
   };
 };
 
@@ -34,16 +29,9 @@ const setValues = (state, { key, value }) => {
   };
 };
 
-const setFilters = (state, { filters }) => {
-  return {
-    ...state,
-    filters: {...state.filters, ...filters}
-  };
-};
 
 export default createReducer(initialState, {
-  [ACTION_TYPES.SET_CHARACTERS]: setCharacters,
+  [ACTION_TYPES.SET_CHARACTER]: setCharacter,
   [ACTION_TYPES.SET_LOADING]: setLoading,
   [ACTION_TYPES.SET_VALUES]: setValues,
-  [ACTION_TYPES.SET_FILTERS]: setFilters,
 });

@@ -18,8 +18,4 @@ function CardShimmer() {
   );
 }
 
-function Shimmer() {
-  return Array.from({ length: 5 }, (v, k) => <CardShimmer key={k + 1} />);
-}
-
-export default Shimmer;
+export default CardShimmer;

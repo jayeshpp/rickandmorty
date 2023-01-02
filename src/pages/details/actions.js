@@ -1,35 +1,26 @@
 import { ACTION_TYPES } from "./actionTypes";
 import API from "../../lib/axios";
-import { getQueryString } from "../../lib/utils/getQueryString";
 
-export const setCharacters = (payload, config) => {
-  let url = `/character`;
-  if(payload) {
-    let qs = getQueryString(payload)
-    url += qs
-  }
-
+export const setCharacter = (id, config) => {
+  let url = `/character/${id}`;
   return (dispatch) => {
-    dispatch(setLoading(false));
-    dispatch(setValues("error", false));
+    dispatch(setLoading(true));
     dispatch({
-      type: ACTION_TYPES.SET_CHARACTERS,
-      data: [],
-      info: {},
-    });
+      type: ACTION_TYPES.SET_CHARACTER,
+      data: {}
+    })
     API.get(url, { ...config })
       .then((response) => {
         dispatch(setLoading(false));
         dispatch({
-          type: ACTION_TYPES.SET_CHARACTERS,
-          data: response.data.results,
-          info: response.data.info,
+          type: ACTION_TYPES.SET_CHARACTER,
+          data: response.data,
         });
       })
-      .catch(({ response }) => {
+      .catch(({response}) => {
         dispatch(setValues("error", true));
         dispatch(setValues("message", response?.data?.error));
-      });
+      })
   };
 };
 
@@ -47,6 +38,7 @@ export const setValues = (key, value) => {
     value,
   };
 };
+
 export const setFilters = (filters) => {
   return {
     type: ACTION_TYPES.SET_FILTERS,

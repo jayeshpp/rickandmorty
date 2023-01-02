@@ -3,51 +3,99 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import CharacterCard from "../../components/character-card";
 import ShimmerList from "../../components/character-card/shimmer";
+import PageHead from "../../components/page-head";
 import Pagination from "../../components/pagination";
-import { setCharacters } from "./actions";
-import { character } from "./selectors";
+import Select from "../../components/select";
+import { getQueryString } from "../../lib/utils/getQueryString";
+import { setCharacters, setFilters } from "./actions";
+import { listing } from "./selectors";
+import { getFilters } from "../../lib/utils/getFilters";
+import Input from "../../components/input";
 
 function CharacterList() {
   const [searchParams] = useSearchParams();
-  const pageNumber = searchParams.get('page');
-  const [page, setPage] = useState(() => pageNumber ? pageNumber : 0);
-  const characters = useSelector(character.getCharacters);
-  const totalRecords = useSelector(character.getInfo);
-  const isLoading = useSelector(character.getLoading);
+  const filters = getFilters(searchParams);
+  const [value, setValue] = useState(() => {
+    return filters.name ? filters.name : ''
+  })
+  const characters = useSelector(listing.getCharacters);
+  const totalRecords = useSelector(listing.getInfo);
+  const isLoading = useSelector(listing.getLoading);
+  const error = useSelector(listing.getError);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onPagination = (page) => {
-    setPage(page);
     navigate({
-      search: `page=${page}`
-    })
+      search: getQueryString({ ...filters, page }),
+    });
+    dispatch(setFilters({ page }));
+  };
+
+  const onSelect = (event) => {
+    const { value } = event.target;
+    navigate({
+      search: getQueryString({ ...filters, gender: value }),
+    });
+    dispatch(setFilters({ gender: value }));
+  };
+
+  const onKeyDown = (event) => {
+    const { value } = event.target;
+    if (event.key === "Enter") {
+      navigate({
+        search: getQueryString({ ...filters, name: value }),
+      });
+      dispatch(setFilters({ name: value }));
+    }
+  };
+
+  const onChange = (event) => {
+    const { value } = event.target;
+    setValue(value)
+  }
+
+  const onClick = (characterId) => {
+    navigate(`/details/${characterId}`);
   };
 
   useEffect(() => {
-    dispatch(setCharacters(page));
-  }, [page]);
-
-  if (!characters.length && !isLoading) {
-    return <section className="container">No results found</section>;
-  }
+    let payload = getFilters(searchParams);
+    dispatch(setCharacters(payload));
+  }, [searchParams]);
 
   return (
     <>
+      <PageHead>
+        <div className="filter">
+          <Select
+            onSelect={onSelect}
+            selected={filters.gender}
+            className="mr-2"
+          />
+          <Input placeholder="Search by name" onChange={onChange} onKeyDown={onKeyDown} value={value} />
+        </div>
+      </PageHead>
       <section className="container">
-        {isLoading ? (
+        {(!characters.length && !isLoading) || error ? (
+          <div>No results found</div>
+        ) : isLoading ? (
           //TODO: loading state can be improved with proper effect
           <ShimmerList />
         ) : (
           characters?.map((character) => (
-            <CharacterCard key={character.id} {...character} />
+            <CharacterCard
+              key={character.id}
+              {...character}
+              onClick={onClick}
+            />
           ))
         )}
       </section>
       <Pagination
         totalRecords={totalRecords.count}
         perPage={20}
-        activePage={page}
+        activePage={filters.page}
         handlePagination={onPagination}
       />
     </>
