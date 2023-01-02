@@ -10,7 +10,7 @@ export const setCharacters = (payload, config) => {
   }
 
   return (dispatch) => {
-    dispatch(setLoading(false));
+    dispatch(setLoading(true));
     dispatch(setValues("error", false));
     dispatch({
       type: ACTION_TYPES.SET_CHARACTERS,
@@ -27,6 +27,7 @@ export const setCharacters = (payload, config) => {
         });
       })
       .catch(({ response }) => {
+        dispatch(setLoading(false));
         dispatch(setValues("error", true));
         dispatch(setValues("message", response?.data?.error));
       });

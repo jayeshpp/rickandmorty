@@ -1,6 +1,6 @@
 function CardShimmer() {
   return (
-    <article className="card">
+    <article className="card-details">
       <aside className="card__aside">
         <figure className="card__figure">
           <img

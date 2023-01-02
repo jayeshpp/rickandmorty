@@ -1,7 +1,7 @@
 main {
-    background-color: #272b33;
-    color: #fff;
-    padding-bottom: 40px;
+  color: #fff;
+  padding-bottom: 40px;
+  background-color: #272b33;
 }
 .container {
   padding: 20px;
@@ -14,16 +14,25 @@ main {
 
 @media (min-width: 600px) {
   .container {
-    display: grid;
-    justify-content: center;
+    &.listing {
+      display: grid;
+      justify-content: center;
+    }
   }
 }
 @media (min-width: 1024px) {
   .container {
-    justify-content: center;
-    display: grid;
-    max-width: 1024px;
-    margin: auto;
-    grid-template-columns: 1fr 1fr;
+    &.listing {
+      justify-content: center;
+      display: grid;
+      max-width: 1024px;
+      margin: auto;
+      grid-template-columns: 1fr 1fr;
+    }
+    &.details {
+      display: grid;
+      max-width: 1024px;
+      margin: auto;
+    }
   }
 }

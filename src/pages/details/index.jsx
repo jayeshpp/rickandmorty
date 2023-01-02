@@ -31,7 +31,7 @@ function CharacterList() {
           Back
         </span>
       </PageHead>
-      <section className="container">
+      <section className="container details">
         {(!Object.values(character).length && !isLoading) || error ? (
           <div>No results found</div>
         ) : isLoading ? (

@@ -16,8 +16,8 @@ function CharacterList() {
   const [searchParams] = useSearchParams();
   const filters = getFilters(searchParams);
   const [value, setValue] = useState(() => {
-    return filters.name ? filters.name : ''
-  })
+    return filters.name ? filters.name : "";
+  });
   const characters = useSelector(listing.getCharacters);
   const totalRecords = useSelector(listing.getInfo);
   const isLoading = useSelector(listing.getLoading);
@@ -52,8 +52,8 @@ function CharacterList() {
 
   const onChange = (event) => {
     const { value } = event.target;
-    setValue(value)
-  }
+    setValue(value);
+  };
 
   const onClick = (characterId) => {
     navigate(`/details/${characterId}`);
@@ -73,31 +73,38 @@ function CharacterList() {
             selected={filters.gender}
             className="mr-2"
           />
-          <Input placeholder="Search by name" onChange={onChange} onKeyDown={onKeyDown} value={value} />
+          <Input
+            placeholder="Search by name"
+            onChange={onChange}
+            onKeyDown={onKeyDown}
+            value={value}
+          />
         </div>
       </PageHead>
-      <section className="container">
-        {(!characters.length && !isLoading) || error ? (
-          <div>No results found</div>
-        ) : isLoading ? (
+      <section className="container listing">
+        {isLoading ? (
           //TODO: loading state can be improved with proper effect
           <ShimmerList />
-        ) : (
-          characters?.map((character) => (
-            <CharacterCard
-              key={character.id}
-              {...character}
-              onClick={onClick}
+        ) : characters?.length ? (
+          <>
+            {characters.map((character) => (
+              <CharacterCard
+                key={character.id}
+                {...character}
+                onClick={onClick}
+              />
+            ))}
+            <Pagination
+              totalRecords={totalRecords.count}
+              perPage={20}
+              activePage={filters.page}
+              handlePagination={onPagination}
             />
-          ))
-        )}
+          </>
+        ) : (!characters.length && !isLoading) || error ? (
+          <div>No results found</div>
+        ) : null}
       </section>
-      <Pagination
-        totalRecords={totalRecords.count}
-        perPage={20}
-        activePage={filters.page}
-        handlePagination={onPagination}
-      />
     </>
   );
 }

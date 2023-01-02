@@ -1,4 +1,4 @@
-.card {
+.card-details {
   margin: 18px;
   background-color: #3c3e44;
   border-radius: 8px;
@@ -28,9 +28,7 @@
 }
 
 @media (min-width: 600px) {
-  .card {
-    max-width: 500px;
-    height: 200px;
+  .card-details {
     display: grid;
     grid-template-columns: .8fr 1fr;
     &__aside {
